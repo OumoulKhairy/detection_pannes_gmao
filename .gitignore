@@ -1,0 +1,18 @@
+# Données Senelec : ne jamais versionner
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Modèles et sorties générées
+models/*
+!models/.gitkeep
+reports/figures/*
+!reports/figures/.gitkeep
+*.csv
+
+# Python / environnement
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
