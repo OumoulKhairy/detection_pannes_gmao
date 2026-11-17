@@ -17,7 +17,7 @@ from scipy.stats import chi2_contingency
 
 from settings.params import (TYPE_PANNE, TYPE_PREVENTIF, FENETRES, JOURS_JAMAIS, FEATURES_CAT, H_MAX,
                              TROU_DEBUT, TROU_FIN, COUPURES_TRAIN, FIN_OBS_TRAIN, COUPURES_VAL, FIN_OBS_VAL,
-                             COUPURES_TEST, FIN_OBS_TEST, DATE_FUTUR, DUREE, EVENEMENT)
+                             COUPURES_TEST, FIN_OBS_TEST, DUREE, EVENEMENT)
 from src.data.preprocess import est_exclu
 from src.utils.logger import logger
 
@@ -136,15 +136,13 @@ def etiquette_horizon(df, h):
 # 3. Découpage temporel
 # ----------------------------------------------------------------------------
 def construire_ensembles(ot):
-    """Entraînement, validation, test (avec cible) et futur (dernière date, sans cible)."""
+    """Entraînement, validation et test, chacun avec sa cible (duree, evenement)."""
     ensembles = {}
     for nom, (debut, fin), fin_obs in [("train", COUPURES_TRAIN, FIN_OBS_TRAIN),
                                        ("val", COUPURES_VAL, FIN_OBS_VAL),
                                        ("test", COUPURES_TEST, FIN_OBS_TEST)]:
         ensembles[nom] = ajouter_cible(build_snapshots(ot, debut, fin), ot, fin_obs)
         logger.info(f"{nom} : {len(ensembles[nom]):,} lignes, {ensembles[nom]['date_coupure'].nunique()} dates de coupure")
-    ensembles["futur"] = build_snapshots(ot, DATE_FUTUR, DATE_FUTUR)
-    logger.info(f"futur : {len(ensembles['futur']):,} équipements au {DATE_FUTUR}")
     return ensembles
 
 

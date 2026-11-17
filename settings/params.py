@@ -53,7 +53,6 @@ COUPURES_VAL = ("2024-11-30", "2025-04-30")
 FIN_OBS_VAL = "2025-05-31"
 COUPURES_TEST = ("2025-08-31", "2025-11-30")
 FIN_OBS_TEST = "2025-12-31"
-DATE_FUTUR = "2025-12-31"        # dernière date connue : sert à la prévision réelle (pas de cible)
 
 H_MAX = 365                      # on suit chaque date de coupure au plus 365 jours
 HORIZONS = [7, 30, 90]           # horizons (en jours) utilisés pour l'analyse et l'évaluation
@@ -70,7 +69,7 @@ EXCLURE_FAMILLES = [
     "V-EXPLO", "V-CADRE",        # véhicules (zone GARAGE)
     "VEH_LEGER", "VEH_LOURD",    # véhicules
 ]
-# À confirmer avec l'encadrant : codes C4, 401MD, GE401 (zone 1000)
+# Codes C4, 401MD, GE401 (zone 1000) : confirmés comme équipements du réseau par l'encadrant
 
 # ----------------------------------------------------------------------------
 # Colonnes du fichier FaitOT
@@ -111,10 +110,11 @@ DUREE, EVENEMENT = "duree", "evenement"   # cible de survie : délai (jours) et 
 
 # Listes décidées dans 01_01_exploration_donnees (phase 7, règle de redondance)
 FEATURES_ALL = FEATURES_NUM + FEATURES_CAT          # modèles à arbres : supportent les variables redondantes
+VARIABLES_IMPOSEES = ["log_cout_365j"]              # décision de l'encadrant : gardées même si redondantes
 FEATURES_LINEAR = [                                 # modèles linéaires : sans les variables redondantes
     "n_corr_7j", "n_corr_30j", "n_corr_90j", "n_corr_365j", "n_corr_total", "jours_depuis_prev",
-    "parent_corr_90j", "anciennete_jours", "mois", "familleEquipement", "zone", "fonction",
-]   # retirées : log_cout_365j, jours_depuis_corr, ecart_moyen_corr, n_prev_365j, n_prev_total
+    "log_cout_365j", "parent_corr_90j", "anciennete_jours", "mois", "familleEquipement", "zone", "fonction",
+]   # retirées : jours_depuis_corr, ecart_moyen_corr, n_prev_365j, n_prev_total
 
 # ----------------------------------------------------------------------------
 # Analyse et sélection
